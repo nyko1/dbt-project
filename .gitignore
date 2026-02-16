@@ -1,0 +1,21 @@
+
+projet_dbt/target/
+dbt_packages/
+logs/
+projet_dbt/output/*
+projet_dbt/.idea/
+projet_dbt/.venv/ 
+projet_dbt/data/
+projet_dbt/__pycache__/ 
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+
+# Mac / Windows
+.DS_Store
+Thumbs.db

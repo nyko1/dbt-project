@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: tlc_taxi_trips
+    tables:
+      - name: raw_yellow_tripdata
+        config:
+          external_location: "data/yellow_tripdata_2024-*.parquet"
+          format: parquet

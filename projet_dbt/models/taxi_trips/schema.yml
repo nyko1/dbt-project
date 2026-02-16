@@ -1,0 +1,104 @@
+
+version: 2
+
+models:
+  - name: transform
+    description: "Dataset des trajets de taxi jaune de New York au cours de l'année 2024, transformé pour l'analyse."
+    columns:
+      - name: tpep_pickup_datetime
+        description: "The date and time when the meter was engaged."
+        tests:
+          - not_null
+
+      - name: tpep_dropoff_datetime
+        description: "The date and time when the meter was disengaged."
+        tests:
+            - not_null
+
+      - name: trip_duration_minutes
+        description: "The duration of the trip in minutes."
+        tests:
+          - not_null
+
+      - name: trip_distance
+        description: "The distance of the trip in miles."
+        tests:
+          - not_null
+      
+      - name: passenger_count
+        description: "The number of passengers in the trip."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: bigint
+
+      
+      - name: payment_method
+        description: "The payment method used for the trip."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Credit Card', 'Cash']
+
+      - name: store_and_fwd_flag
+        description: "Indicates whether the trip record was held in vehicle memory before sending to the vendor because the vehicle did not have a connection to the server."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['N']
+      
+      - name: PULocationID
+        description: "The TLC Taxi Zone in which the taximeter was engaged."
+        tests:
+          - not_null
+      
+      - name: DOLocationID
+        description: "The TLC Taxi Zone in which the taximeter was disengaged."
+        tests:
+          - not_null
+      
+      - name: fare_amount
+        description: "The time-and-distance fare calculated by the meter."
+        tests:
+          - not_null
+
+      - name: tip_amount
+        description: "The tip amount – This is the amount of money that the passenger paid as a tip to the driver."
+        tests:
+          - not_null
+
+      - name: tolls_amount
+        description: "The total amount of all tolls paid during the trip."
+        tests:
+          - not_null
+
+      - name: improvement_surcharge
+        description: "The improvement surcharge is a fee that is added to the fare of a taxi trip in New York City. It is used to fund various transportation improvement projects in the city."
+        tests:
+          - not_null
+
+      - name: congestion_surcharge
+        description: "The congestion surcharge is a fee that is added to the fare of a taxi trip in New York City during certain hours of the day. It is used to help reduce traffic congestion in the city."
+        tests:
+          - not_null
+
+      - name: extra
+        description: "Miscellaneous extra charges. Currently, this only includes the NYC tax, which is a flat fee of $0.50 per trip."
+        tests:
+          - not_null
+
+      - name: mta_tax
+        description: "The MTA tax is a fee that is added to the fare of a taxi trip in New York City."
+        tests:
+          - not_null
+
+      - name: Airport_fee
+        description: "The airport fee is a fee that is added to the fare of a taxi trip."
+        tests:
+          - not_null
